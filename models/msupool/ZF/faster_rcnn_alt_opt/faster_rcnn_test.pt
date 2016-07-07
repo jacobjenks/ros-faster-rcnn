@@ -303,7 +303,7 @@ layer {
   bottom: "fc7"
   top: "cls_score"
   inner_product_param {
-    num_output: 3 
+    num_output: 12 #Update for num classes 
   }
 }
 layer {
@@ -312,7 +312,7 @@ layer {
   bottom: "fc7"
   top: "bbox_pred"
   inner_product_param {
-    num_output: 12
+    num_output: 48 #Update for num classes: classes*4 for bounding box
   }
 }
 layer {
