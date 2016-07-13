@@ -1,0 +1,2 @@
+To train:
+	./tools/train_msu.py --gpu 0 --net_name ZF
