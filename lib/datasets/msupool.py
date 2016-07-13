@@ -25,7 +25,7 @@ class msupool(imdb):
         self._image_set = image_set 
         self._data_path = os.path.join(self._get_default_path())
         self._classes = ('__background__', # always index 0
-                         'buoy', 'gate', 'bin', 'bin_cover', 'torpedo_target', 'torpedo_hole', 'torpedo_cover', 'object_pickup', 'object_dropoff', 'path_marker', 'pinger')
+                         'qual_gate', 'buoy', 'channel', 'bin', 'bin_cover', 'torpedo_target', 'torpedo_hole', 'torpedo_cover', 'object_pickup', 'object_dropoff', 'path_marker')
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
         self._image_ext = ['.jpg', '.png', '.JPG', '.JPEG']
         self._image_index = self._load_image_set_index()
