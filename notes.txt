@@ -1,2 +1,9 @@
 To train:
-	./tools/train_msu.py --gpu 0 --net_name ZF
+	./experiments/scripts/msu.sh 0 ZF
+
+To update number of classes:
+	Update network structure  models/msupool/ZF/faster_rcnn_alt_opt
+
+After changing network structure:
+	delete data/cache/
+	delete data/MSUPool/annotations_cache

@@ -75,7 +75,6 @@ def msu_eval(detpath,
     # assumes imagesetfile is a text file with each line an image name
     # cachedir caches the annotations in a pickle file
 
-
     # first load gt
     if not os.path.isdir(cachedir):
         os.mkdir(cachedir)
@@ -119,6 +118,9 @@ def msu_eval(detpath,
     detfile = detpath.format(classname)
     with open(detfile, 'r') as f:
         lines = f.readlines()
+
+    if not lines:
+	return 0, 0, 0
 
     splitlines = [x.strip().split(' ') for x in lines]
     image_ids = [x[0] for x in splitlines]

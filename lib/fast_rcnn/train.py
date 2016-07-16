@@ -131,7 +131,7 @@ def filter_roidb(roidb):
         # Valid images have:
         #   (1) At least one foreground RoI OR
         #   (2) At least one background RoI
-        try: 
+        try:
             overlaps = entry['max_overlaps']
         except KeyError:
             print entry
