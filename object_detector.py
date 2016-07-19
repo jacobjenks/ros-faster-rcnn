@@ -15,8 +15,9 @@ import time, os, sys
 
 import rospy
 import cv2
-from hector_object_tracker.msgs import ImagePercept
-from sensor_msgs.msgs import Image
+from cv_bridge import CvBridge
+from hector_worldmodel_msgs.msg import ImagePercept
+from sensor_msgs.msg import Image
 
 
 
@@ -28,7 +29,7 @@ class ObjectDetector:
 	pubObjectDetector = None	# Publisher for object detection Image output
 	imageSubChannel = None 		# ROS topic we subscribe to for images to classify
 	lastImage = None			# Most recent image message from Image subscription topic
-	CVBridge = None				# ROS CVBridge object
+	CvBridge = None				# ROS CVBridge object
 	objectDefinitions = None	# List of Objects
 
 	def __init__(self, gpu_id = 0, cfg_file = "experiments/cfgs/msu.yml", 
@@ -57,14 +58,17 @@ class ObjectDetector:
 		#Initialize ROS
 		pubImagePercept = rospy.Publisher('worldmodel/image_percept', ImagePercept, queue_size=10)
 		pubObjectDetector = rospy.Publisher('object_detector', Image, queue_size=10)
-		rospy.Subscriber(imageSubChannel, Image, subImageCB)
+		rospy.Subscriber(imageSubChannel, Image, self.subImageCB)
 		rospy.init_node("object_detector")
 
-		self.CVBridge = CVBridge()
+		self.CvBridge = CvBridge()
+
+		self.lastImage = self.CvBridge.cv2_to_imgmsg(cv2.imread("data/MSUPool/Images/GOPR0424.JPG"))
 		
-		rate = rospy.rate(10)
+		rate = rospy.Rate(10)
 		while not rospy.is_shutdown():
-			objects = self.detect(self.CVBridge.imgmsg_to_cv2(self.lastImage))
+			objects = self.detect(self.CvBridge.imgmsg_to_cv2(self.lastImage))
+			print objects
 			self.publishDetections(objects)
 			rate.sleep()
 
@@ -86,8 +90,6 @@ class ObjectDetector:
 			self.pubImagePercept.publish(msgImagePercept)
 
 			#Image
-			objectDefs, CvBridge
-
 			image = self.lastImage.clone()
 
 			for o in objects:
@@ -110,7 +112,7 @@ class ObjectDetector:
 
 		objects = []
 
-		for j in xrange(1, self.num_classes):
+		for j in xrange(1, 11):
 			inds = np.where(scores[:, j] > self.detection_threshold)[0]
 			cls_scores = scores[inds, j]
 			cls_boxes = boxes[inds, j*4:(j+1)*4]
@@ -138,5 +140,4 @@ class ObjectDetector:
 
 if __name__ == '__main__':
 	detector = ObjectDetector()
-	image = cv2.imread("data/MSUPool/Images/GOPR0424.JPG")
-	print detector.detect(image)
+	
