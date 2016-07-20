@@ -28,7 +28,7 @@ class TopicDetect:
 	'''
 	def __init__(self, name, rate):
 		self.name = name
-		self.rate = rospy.Rate(rate)
+		#self.rate = rospy.Rate(rate)
 
 class ObjectDetector:
 	'''
@@ -68,12 +68,12 @@ class ObjectDetector:
 		self.net.name = os.path.splitext(os.path.basename(caffemodel))[0]
 
 		#Initialize ROS
+		rospy.init_node("object_detector")
 		self.pubImagePercept = rospy.Publisher('worldmodel/image_percept', ImagePercept, queue_size=10)
 		self.pubObjectDetector = rospy.Publisher('object_detector', Image, queue_size=10)
 		self.imageSubChannels = imageSubChannels
 		for sub in self.imageSubChannels:
 			rospy.Subscriber(sub.name, Image, self.subImageCB)
-		rospy.init_node("object_detector")
 
 		self.CvBridge = CvBridge()
 

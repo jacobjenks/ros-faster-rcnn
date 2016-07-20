@@ -7,3 +7,6 @@ To update number of classes:
 After changing network structure:
 	delete data/cache/
 	delete data/MSUPool/annotations_cache
+
+To remake caffe:
+	make clean

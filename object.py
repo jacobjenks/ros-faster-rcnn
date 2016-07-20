@@ -20,6 +20,8 @@ class Object:
 	def initDefinitions():
 		with open("objects.json") as data:
 			data = json.load(data)
+
+		Object.classes.append("background") # Background class is always included
 		for c in data["classes"]:
 			Object.classes.append(c)
 	
@@ -28,7 +30,7 @@ class Object:
 		i = 0
 		for obj in data["objects"]:
 			Object.objects.append(Object(Object.classes.index(obj["class"]), i, obj["width"], obj["height"], obj["color"]))
-			i++
+			i += 1
 	
 	@staticmethod
 	def getObject(classID, color):
