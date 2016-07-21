@@ -1,0 +1,94 @@
+{
+	"classes":[
+		"qual_gate", 
+		"buoy", 
+		"channel", 
+		"bin", 
+		"bin_cover", 
+		"torpedo_target", 
+		"torpedo_hole", 
+		"torpedo_cover", 
+		"object_pickup", 
+		"object_dropoff", 
+		"path_marker"
+	],
+	"objects": [
+		{
+			"name": "qual_gate",
+			"class": "qual_gate",
+			"width": 3.05,
+			"height": 1.2,
+			"color": [0, 0, 0]
+		},
+		{	
+			"name": "buoy_red",
+			"class": "buoy",
+			"width": 0.2,
+			"height": 0.24,
+			"color": [255, 0, 0]
+		},
+		{	
+			"name": "buoy_yellow",
+			"class": "buoy",
+			"width": 0.2,
+			"height": 0.24,
+			"color": [255, 255, 0]
+		},	
+		{
+			"name": "buoy_green",
+			"class": "buoy",
+			"width": 0.2,
+			"height": 0.24,
+			"color": [0, 255, 0]
+		},
+		{
+			"name": "channel",
+			"class": "channel",
+			"width": 2.4,
+			"height": 1.2,
+			"color": [0, 0, 0]
+		},
+		{
+			"name": "bin",
+			"class": "bin",
+			"width": 0.3,
+			"height": 0.6,
+			"color": [0,0,0]
+		},
+		{
+			"name": "bin_cover",
+			"class": "bin_cover",
+			"width": 0.3,
+			"height": 0.6,
+			"color": [0,0,0]
+		},
+		{
+			"name": "torpedo_target",
+			"class": "torpedo_target",
+			"width": 1.2,
+			"height": 1.2,
+			"color": [0,0,0]
+		},
+		{
+			"name": "torpedo_hole",
+			"class": "torpedo_hole",
+			"width": 0.3,
+			"height": 0.3,
+			"color": [0,0,0]
+		},
+		{
+			"name": "torpedo_cover",
+			"class": "torpedo_cover",
+			"width": 0.25,
+			"height": 0.25,
+			"color": [0,0,0]
+		},
+		{
+			"name": "path_marker",
+			"class": "torpedo_hole",
+			"width": 1,
+			"height": 0.2,
+			"color": [0,0,0]
+		}
+	]
+}

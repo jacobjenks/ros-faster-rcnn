@@ -30,15 +30,6 @@ LOG="experiments/logs/msu_testresults_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%
 exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
-#time ./tools/train_msu.py --gpu ${GPU_ID} \
-#  --net_name ${NET} \
-#  --weights data/imagenet_models/${NET}.v2.caffemodel \
-#  --imdb ${TRAIN_IMDB} \
-#  --cfg experiments/cfgs/msu.yml \
-#  ${EXTRA_ARGS}
-
-#set +x
-#NET_FINAL=`grep "Final model:" ${LOG} | awk '{print $3}'`
 set -x
 
 NET_FINAL="output/faster_rcnn_alt_opt/msupool/ZF_faster_rcnn_final.caffemodel"
