@@ -41,7 +41,7 @@ echo Logging output to "$LOG"
 #NET_FINAL=`grep "Final model:" ${LOG} | awk '{print $3}'`
 set -x
 
-NET_FINAL="/home/ubuntu/py-faster-rcnn/output/faster_rcnn_alt_opt/msupool/ZF_faster_rcnn_final.caffemodel"
+NET_FINAL="output/faster_rcnn_alt_opt/msupool/ZF_faster_rcnn_final.caffemodel"
 
 time ./tools/test_net.py --gpu ${GPU_ID} \
   --def models/${PT_DIR}/${NET}/faster_rcnn_alt_opt/faster_rcnn_test.pt \
