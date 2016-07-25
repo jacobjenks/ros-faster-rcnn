@@ -73,15 +73,15 @@ class ObjectDetection:
 	This class is a container for info pertaining to a detection event for an object
 	'''
 	#This is the number of pixels for an object 1 meter wide at a distance of 1 meter for our particular webcam
-	pixelRatio = 1280
+	pixelRatio = 641
 
 	def __init__(self, classID, xMin, yMin, xMax, yMax, confidence, color):
 		self.classID = classID
 		self.obj = Object.getObject(classID, color)
-		self.xMin = xMin
-		self.yMin = yMin
-		self.xMax = xMax
-		self.yMax = yMax
+		self.xMin = int(xMin)
+		self.yMin = int(yMin)
+		self.xMax = int(xMax)
+		self.yMax = int(yMax)
 		self.confidence = confidence
 		self.color = color
 
@@ -90,7 +90,7 @@ class ObjectDetection:
 	def distance(self, yMin = -1, yMax = -1):
 		yMin = self.yMin if yMin == -1 else yMin
 		yMax = self.yMax if yMax == -1 else yMax
-		return self.pixelRatio/self.obj.height/(yMax - yMin)
+		return self.pixelRatio*self.obj.height/(yMax - yMin)
 
 ##########################
 

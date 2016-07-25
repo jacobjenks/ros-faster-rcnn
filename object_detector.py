@@ -46,6 +46,10 @@ class ObjectDetector:
 	objectDefinitions = None	# List of Objects
 	camInfoMsg = None			# Temporary place to hold camera info
 
+	textThickness = 1 
+	textHeight = 15
+	textLeftPad = 2
+
 	def __init__(self, gpu_id = 0, cfg_file = "experiments/cfgs/msu.yml", 
 					prototxt = "models/msupool/ZF/faster_rcnn_alt_opt/faster_rcnn_test.pt", 
 					caffemodel = "output/faster_rcnn_alt_opt/msupool/ZF_faster_rcnn_final.caffemodel", 
@@ -125,10 +129,14 @@ class ObjectDetector:
 
 		for o in objects:
 			cv2.rectangle(image, (o.xMin, o.yMin), (o.xMax, o.yMax), (0, 255, 0))
-			#cv2.putText(image, o.obj.name() + ":" + o.distance(), FONT_HERSHEY_SIMPLEX, 1, (0,255,0)) 
+			cv2.putText(image, o.obj.name(), (o.xMin + self.textLeftPad, o.yMin + self.textHeight), 
+				cv2.FONT_HERSHEY_SIMPLEX, .5, (0,255,0), self.textThickness) 
+			cv2.putText(image, "{:.1f}%".format(o.confidence*100), (o.xMin + self.textLeftPad, o.yMin + self.textHeight*2), 
+				cv2.FONT_HERSHEY_SIMPLEX, .5, (0,255,0), self.textThickness)
+			cv2.putText(image, "{:.1f}m".format(o.distance()), (o.xMin + self.textLeftPad, o.yMin + self.textHeight*3), 
+				cv2.FONT_HERSHEY_SIMPLEX, .5, (0,255,0), self.textThickness)
 
-		#self.pubObjectDetector.publish(self.CvBridge.cv2_to_imgmsg(image, "rgb8"))
-		self.pubObjectDetector.publish(self.imageMsg)
+		self.pubObjectDetector.publish(self.CvBridge.cv2_to_imgmsg(image, "rgb8"))
 
 	# Wrapper for faster-rcnn detections
 	# Excluded max_per_image - look into it if it becomes a problem
@@ -150,11 +158,12 @@ class ObjectDetector:
 			#all_boxes[j][i] = cls_dets
 			#print cls_dets
 			
-			# Each detection is an array containing [xMin, yMin, xMax, yMax, confidence]
+			# Each detection from frcnn is an array containing [xMin, yMin, xMax, yMax, confidence]
 			for det in cls_dets:
 				avgColor = self.avgColor(image, det[0], det[1], det[2]-det[0], det[3]-det[1])
 				objects.append(ObjectDetection(j, det[0], det[1], det[2], det[3], det[4], avgColor))
-
+		
+		#objects.append(ObjectDetection(2, 200, 100, 500, 440, .99, (10, 10, 10)))
 		return objects
 
 	def avgColor(self, image, x, y, width, height):
@@ -164,8 +173,7 @@ class ObjectDetector:
 		crop = .5
 		xSub =  (width * crop)/2
 		ySub = (height * crop)/2
-		#return cv2.mean(image[x+xSub:y+ySub, width-xSub:height-ySub])S
-		return (0,0,0)
+		return cv2.mean(image[x+xSub:y+ySub, width-xSub:height-ySub])S
 
 if __name__ == '__main__':
 	detector = ObjectDetector()
