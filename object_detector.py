@@ -58,13 +58,13 @@ class ObjectDetector:
 		global cfg
 
 		#Initialize faster r-cnn
-		cfg_from_file(cfg_file)
+		cfg_from_file(self.fixPath(cfg_file))
 		self.cfg = cfg
 		self.cfg.GPU_ID = gpu_id
 		
 		caffe.set_mode_gpu()
 		caffe.set_device(self.cfg.GPU_ID)
-		self.net = caffe.Net(prototxt, caffemodel, caffe.TEST)
+		self.net = caffe.Net(self.fixPath(prototxt), self.fixPath(caffemodel), caffe.TEST)
 		self.net.name = os.path.splitext(os.path.basename(caffemodel))[0]
 
 		#Initialize ROS
@@ -79,12 +79,16 @@ class ObjectDetector:
 
 		rate = rospy.Rate(10)
 		while not rospy.is_shutdown():
+
 			if self.imageMsg is not None:
 				image = self.CvBridge.imgmsg_to_cv2(self.imageMsg)
 				objects = self.detect(image)
 				self.publishDetections(objects)
 				self.imageMsg = None
 			rate.sleep()
+
+	def fixPath(self, path):
+		return os.path.join(os.path.dirname(os.path.realpath(__file__)), path)
 
 	def subImageCB(self, image):
 		#TODO: multiple image topics		
@@ -108,13 +112,13 @@ class ObjectDetector:
 			self.pubImagePercept.publish(msgImagePercept)
 
 			#Image
-			image = self.CvBridge.bridge.imgmsg_to_cv2(self.imageMsg)
+		image = self.CvBridge.bridge.imgmsg_to_cv2(self.imageMsg)
 
-			for o in objects:
-				cv2.rectangle(image, (o.xMin, o.yMin), (o.xMax, o.yMax), (0, 255, 0))
-				cv2.putText(image, o.name() + ":" + o.distance(), FONT_HERSHEY_SIMPLEX, 1, (0,255,0)) 
+		for o in objects:
+			cv2.rectangle(image, (o.xMin, o.yMin), (o.xMax, o.yMax), (0, 255, 0))
+			cv2.putText(image, o.name() + ":" + o.distance(), FONT_HERSHEY_SIMPLEX, 1, (0,255,0)) 
 
-			self.pubObjectDetector.publish(self.CvBridge.bridge.cv2_to_imgmsg(image))
+		self.pubObjectDetector.publish(self.CvBridge.bridge.cv2_to_imgmsg(image))
 
 	# Wrapper for faster-rcnn detections
 	# Excluded max_per_image - look into it if it becomes a problem

@@ -11,7 +11,11 @@ import numpy as np
 
 def parse_rec(filename):
 	""" Parse a PASCAL VOC xml file """
-	tree = ET.parse(filename)
+	try:	
+		tree = ET.parse(filename)
+	except:
+		print "Unable to parse "+filename
+		return []
 	objects = []
 	for obj in tree.findall('object'):
 		obj_struct = {}

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import json
+import os
 
 class Object:
 	'''
@@ -18,7 +19,7 @@ class Object:
 
 	@staticmethod
 	def initDefinitions():
-		with open("objects.json") as data:
+		with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "objects.json")) as data:
 			data = json.load(data)
 
 		Object.classes.append("background") # Background class is always included
