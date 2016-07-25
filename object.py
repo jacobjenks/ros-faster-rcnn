@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import json
 import os
+import math
 
 class Object:
 	'''
@@ -36,7 +37,7 @@ class Object:
 	@staticmethod
 	def getObject(classID, color):
 		objects = []
-		for obj in Objects.objects:
+		for obj in Object.objects:
 			if obj.classID == classID:
 				objects.append(obj)
 
@@ -53,17 +54,18 @@ class Object:
 					distance = d
 
 			return closest
-			
-	def getColorDistance(c1, c2):
+
+	@staticmethod
+	def colorDistance(c1, c2):
 		# Get euclidean distance between two colors
 		# I'm sure there's a better way to do this
-		return math.sqrt(math.pow(c1[0] - c2[0], 2) + math.pow(c1[1] - c2[1], 2) + math.pow(c1[2] - c2[2]))
+		return math.sqrt(math.pow(c1[0] - c2[0], 2) + math.pow(c1[1] - c2[1], 2) + math.pow(c1[2] - c2[2], 2))
 			
 
 	def name(self, classID = -1):
 		if classID == -1:
 			classID = self.classID
-		return classNames[classID]
+		return self.classes[classID]
 
 
 class ObjectDetection:
@@ -88,7 +90,7 @@ class ObjectDetection:
 	def distance(self, yMin = -1, yMax = -1):
 		yMin = self.yMin if yMin == -1 else yMin
 		yMax = self.yMax if yMax == -1 else yMax
-		return self.pixelRatio/self.height/(yMax - yMin)
+		return self.pixelRatio/self.obj.height/(yMax - yMin)
 
 ##########################
 

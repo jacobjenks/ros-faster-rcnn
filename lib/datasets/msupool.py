@@ -172,7 +172,11 @@ class msupool(imdb):
         format.
         """
         filename = os.path.join(self._data_path, 'Annotations', index + '.xml')
-        tree = ET.parse(filename)
+        try:
+            tree = ET.parse(filename)
+        except:
+            print "Failed to load annocation " + filename
+            exit()
         objs = tree.findall('object')
         num_objs = len(objs)
 
