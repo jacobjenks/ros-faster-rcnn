@@ -37,7 +37,7 @@ class ObjectDetector:
 	It accepts images from specified topics, and publishes subsequent object detections.
 	'''
 
-	detection_threshold = .05 	# Minimum softmax score
+	detection_threshold = .5 	# Minimum softmax score
 	pubImagePercept = None		# Publisher for object detection ImagePercept output
 	pubObjectDetector = None	# Publisher for object detection Image output
 	imageSubChannels = []		# ROS topics we subscribe to for images to classify
