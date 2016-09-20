@@ -85,7 +85,7 @@
 		},
 		{
 			"name": "path_marker",
-			"class": "torpedo_hole",
+			"class": "path_marker",
 			"width": 1,
 			"height": 0.2,
 			"color": [0,0,0]

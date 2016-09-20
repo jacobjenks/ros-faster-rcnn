@@ -87,7 +87,7 @@ class ObjectDetector:
 		rate = rospy.Rate(10)
 		while not rospy.is_shutdown():
 			if self.imageMsg is not None:
-				image = self.CvBridge.imgmsg_to_cv2(self.imageMsg, "rgb8")
+				image = self.CvBridge.imgmsg_to_cv2(self.imageMsg, "bgr8")
 				objects = self.detect(image)
 				self.publishDetections(objects)
 				self.imageMsg = None
@@ -101,7 +101,7 @@ class ObjectDetector:
 
 	def subImageCB(self, image):
 		#TODO: multiple image topics		
-		rospy.loginfo("Detector image updated")
+		#rospy.loginfo("Detector image updated")
 		if self.imageMsg is None:
 			self.imageMsg = image
 
