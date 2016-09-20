@@ -16,7 +16,7 @@ import time, os, sys
 import rospy
 import cv2
 from cv_bridge import CvBridge
-from hector_worldmodel_msgs.msg import ImagePercept
+#from hector_worldmodel_msgs.msg import ImagePercept
 from sensor_msgs.msg import Image, CameraInfo
 
 import object
@@ -75,7 +75,7 @@ class ObjectDetector:
 
 		#Initialize ROS
 		rospy.init_node("object_detector")
-		self.pubImagePercept = rospy.Publisher('worldmodel/image_percept', ImagePercept, queue_size=10)
+		#self.pubImagePercept = rospy.Publisher('worldmodel/image_percept', ImagePercept, queue_size=10)
 		self.pubObjectDetector = rospy.Publisher('object_detector', Image, queue_size=10)
 		self.imageSubChannels = imageSubChannels
 		for sub in self.imageSubChannels:
@@ -173,7 +173,7 @@ class ObjectDetector:
 		crop = .5
 		xSub =  (width * crop)/2
 		ySub = (height * crop)/2
-		return cv2.mean(image[x+xSub:y+ySub, width-xSub:height-ySub])S
+		return cv2.mean(image[x+xSub:y+ySub, width-xSub:height-ySub])
 
 if __name__ == '__main__':
 	detector = ObjectDetector()
