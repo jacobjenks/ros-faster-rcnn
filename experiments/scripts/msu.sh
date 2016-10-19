@@ -26,8 +26,15 @@ TEST_IMDB="msupool_test"
 PT_DIR="msupool"
 ITERS=40000
 
-LOG="experiments/logs/msu_frcnn_alt_opt_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
-exec &> >(tee -a "$LOG")
+LOG_DIR="experiments/logs/"
+LOG_FILE="msu_frcnn_alt_opt_${NET}_${EXTRA_ARGS_SLUG}.txt.`date +'%Y-%m-%d_%H-%M-%S'`"
+
+
+if [ ! -d "$LOG_DIR" ]; then
+  mkdir $LOG_DIR
+fi
+
+exec &> >(tee -a "$LOG_DIR + $LOG_FILE")
 echo Logging output to "$LOG"
 
 time ./tools/train_msu.py --gpu ${GPU_ID} \
